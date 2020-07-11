@@ -1,0 +1,248 @@
+# EJERCICIO 1
+
+## PARTE DDL
+
+```sql
+
+CREATE TABLE empleado (
+    idempleado      INTEGER NOT NULL,
+    nombreempleado  VARCHAR2(40 CHAR),
+    fechaingreso    VARCHAR2(20 CHAR)
+);
+
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( idempleado );
+
+CREATE TABLE prestacion_servicio (
+    idprestacionservicio  INTEGER NOT NULL,
+    idservicio            INTEGER NOT NULL,
+    idempleado            INTEGER NOT NULL,
+    idvehiculo            INTEGER NOT NULL,
+    fecha                 DATE
+);
+
+ALTER TABLE prestacion_servicio
+    ADD CONSTRAINT prestacion_servicio_pk PRIMARY KEY ( idprestacionservicio,
+                                                        idservicio,
+                                                        idempleado,
+                                                        idvehiculo );
+
+CREATE TABLE servicios (
+    idservicio      INTEGER NOT NULL,
+    nombreservicio  VARCHAR2(40 CHAR),
+    valorservicio   VARCHAR2(30 CHAR)
+);
+
+ALTER TABLE servicios ADD CONSTRAINT servicios_pk PRIMARY KEY ( idservicio );
+
+CREATE TABLE vehiculo (
+    idvehiculo      INTEGER NOT NULL,
+    marcavehiulo    VARCHAR2(20 CHAR),
+    modelovehiculo  VARCHAR2(30 CHAR)
+);
+
+ALTER TABLE vehiculo ADD CONSTRAINT vehiculo_pk PRIMARY KEY ( idvehiculo );
+
+```
+
+## PARTE DML
+
+### INSERCIÓN DE DATOS
+
+```sql
+INSERT ALL
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (1,'carlos',TO_DATE('01-01-2015', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (2,'carla',TO_DATE('01-09-2015', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (3,'carlota',TO_DATE('01-11-2016', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (4,'carlangas',TO_DATE('01-12-2016', 'DD-MM-YYYY'))
+SELECT * FROM dual
+```
+```sql
+INSERT ALL
+	INTO SERVICIOS (idservicio,nombreservicio,valorservicio) VALUES (1,'barrer',1000)
+	INTO SERVICIOS (idservicio,nombreservicio,valorservicio) VALUES (2,'pintar',10000)
+	INTO SERVICIOS (idservicio,nombreservicio,valorservicio) VALUES (3,'instalar',100000)
+	INTO SERVICIOS (idservicio,nombreservicio,valorservicio) VALUES (4,'construir',1000000)
+SELECT * FROM dual```
+
+```sql
+INSERT ALL
+	INTO VEHICULO (idvehiculo,marcavehiulo,modelovehiculo) VALUES (1,'Suzuki','vitara')
+	INTO VEHICULO (idvehiculo,marcavehiulo,modelovehiculo) VALUES (2,'Peugeot','308')
+	INTO VEHICULO (idvehiculo,marcavehiulo,modelovehiculo) VALUES (3,'Citroen','c4')
+	INTO VEHICULO (idvehiculo,marcavehiulo,modelovehiculo) VALUES (4,'Mitsubishi',NULL)
+SELECT * FROM dual
+```
+
+*Cantidad de prestaciones de servicios ejecutados entre el 01 de octubre y el 26 de noviembre del 2018*
+
+```sql
+SELECT count(idservicio) FROM prestacion_servicio
+WHERE fecha
+BETWEEN '2018-10-01' AND '2018-11-26';
+```
+
+*Cantidad total de prestaciones realizadas agrupadas por Vehículo*
+
+```sql
+SELECT count(idservicio) FROM prestacion_servicio
+WHERE idvehiculo IS NOT NULL;
+```
+
+*Vehiculos con la menor cantidad de prestacion de servicios realizada*
+
+```sql
+SELECT idvehiculo FROM prestacion_servicio
+ORDER BY idservicio ASC; 
+```
+
+# EJERCICIO 2
+
+## PARTE DDL
+
+```sql
+CREATE TABLE empleado (
+    idempleado  	INTEGER NOT NULL,
+    nombre      	VARCHAR2(40 CHAR),
+    apellido    	VARCHAR2(20 CHAR),
+    direccion		VARCHAR2(40 CHAR),
+    telefono		VARCHAR(20 CHAR),
+);
+
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( idempleado );
+
+
+```
+
+## PARTE DML
+
+```sql
+INSERT ALL
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (1,'carlos',TO_DATE('01-01-2015', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (2,'carla',TO_DATE('01-09-2015', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (3,'carlota',TO_DATE('01-11-2016', 'DD-MM-YYYY'))
+	INTO EMPLEADO (idempleado,nombreempleado,fechaingreso) VALUES (4,'carlangas',TO_DATE('01-12-2016', 'DD-MM-YYYY'))
+SELECT * FROM dual
+```
+
+# EJRCICIO 3
+
+```sql
+CREATE TABLE actor (
+    idactor      INTEGER NOT NULL,
+    nombreactor  VARCHAR2(30 CHAR) NOT NULL,
+    pelicula     VARCHAR2(30 CHAR),
+    personaje    VARCHAR2(30)
+);
+
+ALTER TABLE actor ADD CONSTRAINT actor_pk PRIMARY KEY ( idactor );
+
+CREATE TABLE director (
+    iddirector      INTEGER NOT NULL,
+    nombredirector  VARCHAR2(30 CHAR) NOT NULL,
+    nacionalidad    VARCHAR2(30 CHAR),
+    peliculas       VARCHAR2(4000)
+);
+
+ALTER TABLE director ADD CONSTRAINT director_pk PRIMARY KEY ( iddirector );
+
+CREATE TABLE pelicula (
+    idpelicula      INTEGER NOT NULL,
+    nombreoriginal  VARCHAR2(30 CHAR),
+    nombre          VARCHAR2(30 CHAR),
+    genero          VARCHAR2(30 CHAR),
+    idioma          VARCHAR2(30 CHAR),
+    subesp          CHAR(1),
+    origen          VARCHAR2(30 CHAR),
+    anio            INTEGER,
+    web             VARCHAR2(40 CHAR),
+    duracion        DATE,
+    calificacion    VARCHAR2(30 CHAR),
+    estreno         DATE,
+    sinopsis        VARCHAR2(100 CHAR),
+    director        VARCHAR2(30 CHAR),
+    reparto         VARCHAR2(4000)
+);
+
+ALTER TABLE pelicula ADD CONSTRAINT pelicula_pk PRIMARY KEY ( idpelicula );
+
+CREATE TABLE actor (
+    idactor      INTEGER NOT NULL,
+    nombreactor  VARCHAR2(30 CHAR) NOT NULL,
+    pelicula     VARCHAR2(30 CHAR),
+    personaje    VARCHAR2(30)
+);
+
+ALTER TABLE actor ADD CONSTRAINT actor_pk PRIMARY KEY ( idactor );
+
+CREATE TABLE director (
+    iddirector      INTEGER NOT NULL,
+    nombredirector  VARCHAR2(30 CHAR) NOT NULL,
+    nacionalidad    VARCHAR2(30 CHAR),
+    peliculas       VARCHAR2(4000)
+);
+
+ALTER TABLE director ADD CONSTRAINT director_pk PRIMARY KEY ( iddirector );
+
+CREATE TABLE pelicula (
+    idpelicula      INTEGER NOT NULL,
+    nombreoriginal  VARCHAR2(30 CHAR),
+    nombre          VARCHAR2(30 CHAR),
+    genero          VARCHAR2(30 CHAR),
+    idioma          VARCHAR2(30 CHAR),
+    subesp          CHAR(1),
+    origen          VARCHAR2(30 CHAR),
+    anio            INTEGER,
+    web             VARCHAR2(40 CHAR),
+    duracion        DATE,
+    calificacion    VARCHAR2(30 CHAR),
+    estreno         DATE,
+    sinopsis        VARCHAR2(100 CHAR),
+    director        VARCHAR2(30 CHAR),
+    reparto         VARCHAR2(4000)
+);
+
+ALTER TABLE pelicula ADD CONSTRAINT pelicula_pk PRIMARY KEY ( idpelicula );
+
+CREATE TABLE calificacion (
+    obra_maestra  VARCHAR2(10),
+    muy_buena     VARCHAR2(10),
+    buena         VARCHAR2(10),
+    regular       VARCHAR2(10),
+    mala          VARCHAR2(10)
+);
+
+CREATE TABLE opinion (
+    opinion           INTEGER NOT NULL,
+    nombreopinador    VARCHAR2(30),
+    edad              INTEGER NOT NULL,
+    fecharealizacion  DATE,
+    calificacion      INTEGER NOT NULL
+);
+
+ALTER TABLE opinion ADD CONSTRAINT opinion_pk PRIMARY KEY ( opinion,
+                                                            calificacion );
+
+CREATE TABLE promocion (
+    descuentos   INTEGER NOT NULL,
+    descripcion  VARCHAR2(50)
+);
+
+ALTER TABLE promocion ADD CONSTRAINT promocion_pk PRIMARY KEY ( descuentos );
+
+
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( idempleado );
+
+CREATE TABLE cine (
+    idsala       INTEGER NOT NULL,
+    cartelera    VARCHAR2(50),
+    descripcion  VARCHAR2(50),
+    direccion    VARCHAR2(30),
+    telefono     VARCHAR2(15)
+);
+
+ALTER TABLE cine ADD CONSTRAINT cine_pk PRIMARY KEY ( idsala );
+
+
+````
+
+
